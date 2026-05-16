@@ -1,0 +1,123 @@
+type Query {
+  loanApplications(
+    status: StatusFilter
+    searchTerm: String
+  ): [LoanApplication!]!
+  
+  loanApplication(id: ID!): LoanApplication
+  
+  currentUser: User!
+}
+
+type Mutation {
+  updateApplicationStatus(
+    id: ID!
+    status: ApplicationStatus!
+    comment: String!
+  ): LoanApplication!
+  
+  reassignApplication(
+    id: ID!
+    officerId: ID!
+  ): LoanApplication!
+  
+  unmaskField(
+    applicationId: ID!
+    fieldName: String!
+  ): UnmaskResult!
+}
+
+type LoanApplication {
+  id: ID!
+  applicantName: String!
+  email: String!
+  amount: Float!
+  status: ApplicationStatus!
+  riskScore: Float!
+  submittedAt: String!
+  creditScore: Int!
+  annualIncome: Float!
+  debtToIncomeRatio: Float!
+  purpose: String!
+  termMonths: Int!
+  employmentStatus: EmploymentStatus!
+  
+  # Sensitive fields - access controlled by role
+  nationalInsurance: SensitiveField!
+  dateOfBirth: SensitiveField!
+  bankDetails: SensitiveField!
+  
+  # Relationships
+  assignedOfficer: User
+  lastModifiedBy: User
+  createdAt: String!
+  updatedAt: String!
+}
+
+type SensitiveField {
+  masked: String!
+  value: String
+  isRestricted: Boolean!
+}
+
+type User {
+  id: ID!
+  name: String!
+  role: UserRole!
+  email: String!
+}
+
+type UnmaskResult {
+  success: Boolean!
+  field: String!
+  value: String
+  auditId: ID!
+}
+
+type RiskScore {
+  score: Float!
+  category: RiskCategory!
+  factors: [RiskFactor!]!
+  calculatedAt: String!
+}
+
+type RiskFactor {
+  name: String!
+  value: Float!
+  impact: Float!
+  description: String!
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum StatusFilter {
+  ALL
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum UserRole {
+  LOAN_OFFICER
+  SENIOR_OFFICER
+  AUDITOR
+  BRANCH_MANAGER
+}
+
+enum EmploymentStatus {
+  EMPLOYED
+  SELF_EMPLOYED
+  UNEMPLOYED
+}
+
+enum RiskCategory {
+  LOW
+  MEDIUM
+  HIGH
+}
