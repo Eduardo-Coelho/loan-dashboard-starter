@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing'
-import { GET_APPLICATIONS, GET_APPLICATION_DETAIL } from '../graphql/queries'
+import { GET_APPLICATIONS } from '../graphql/queries'
 import { mockApplications } from './mockData'
 import { useAuth } from '../contexts/AuthContext'
 import React from 'react'
