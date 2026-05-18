@@ -1,41 +1,38 @@
 // src/App.tsx
-import React from 'react'
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Alert, 
-  Paper,
-  Grid 
-} from '@mui/material'
-import { RoleSwitcher } from './components/RoleSwitcher'
-import { LoanSummaryCard } from './components/LoanSummaryCard'
-import { useAuth } from './contexts/AuthContext'
-import { useLoanApplications } from './hooks/useLoanApplications'
-import { formatCurrency } from './utils/formatting'
+import React from 'react';
+import { Container, Typography, Box, Alert, Paper, Grid } from '@mui/material';
+import { useLoanApplications } from './hooks/useLoanApplications';
+import { formatCurrency } from './utils/formatting';
+import { useAuth } from './contexts';
+import { RoleSwitcher } from './components/RoleSwitcher';
+import { LoanSummaryCard } from './components';
 
 function App() {
-  const { currentUser } = useAuth()
-  const { applications } = useLoanApplications()
+  const { currentUser } = useAuth();
+  const { applications } = useLoanApplications();
 
   // Calculate summary statistics
-  const totalApplications = applications.length
-  const pendingCount = applications.filter(app => app.status === 'PENDING').length
-  const approvedToday = applications.filter(app => {
-    const today = new Date().toDateString()
-    return app.status === 'APPROVED' && 
-           new Date(app.submittedAt).toDateString() === today
-  }).length
-  const totalValue = applications.reduce((sum, app) => sum + app.amount, 0)
+  const totalApplications = applications.length;
+  const pendingCount = applications.filter(
+    (app) => app.status === 'PENDING',
+  ).length;
+  const approvedToday = applications.filter((app) => {
+    const today = new Date().toDateString();
+    return (
+      app.status === 'APPROVED' &&
+      new Date(app.submittedAt).toDateString() === today
+    );
+  }).length;
+  const totalValue = applications.reduce((sum, app) => sum + app.amount, 0);
 
   return (
     <Container maxWidth="xl">
       <Box py={3}>
         {/* Header */}
-        <Box 
-          display="flex" 
-          justifyContent="space-between" 
-          alignItems="center" 
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
           mb={3}
         >
           <Typography variant="h4" component="h1">
@@ -43,13 +40,13 @@ function App() {
           </Typography>
           <RoleSwitcher />
         </Box>
-        
+
         {/* Role Alert */}
         <Alert severity="info" sx={{ mb: 3 }}>
           Current Role: <strong>{currentUser.role}</strong>
-          {currentUser.role === 'LOAN_OFFICER' && 
+          {currentUser.role === 'LOAN_OFFICER' &&
             ' - Limited access to sensitive data'}
-          {currentUser.role === 'SENIOR_OFFICER' && 
+          {currentUser.role === 'SENIOR_OFFICER' &&
             ' - Full access to all data'}
         </Alert>
 
@@ -99,9 +96,7 @@ function App() {
           <Typography variant="h6" gutterBottom>
             Your Implementation Starts Here
           </Typography>
-          <Typography paragraph>
-            The starter kit is configured with:
-          </Typography>
+          <Typography paragraph>The starter kit is configured with:</Typography>
           <Box component="ul" sx={{ mt: 1 }}>
             <Typography component="li">
               20 mock loan applications loaded via the custom hook
@@ -117,8 +112,9 @@ function App() {
             </Typography>
           </Box>
           <Typography sx={{ mt: 2 }}>
-            <strong>Next Steps:</strong> Implement the application table below with sorting, 
-            filtering, and detail modal as specified in the requirements.
+            <strong>Next Steps:</strong> Implement the application table below
+            with sorting, filtering, and detail modal as specified in the
+            requirements.
           </Typography>
         </Paper>
 
@@ -155,7 +151,7 @@ function App() {
         </Paper>
       </Box>
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;

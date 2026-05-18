@@ -1,9 +1,9 @@
-import React from 'react'
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import { useAuth } from '../contexts/AuthContext'
+import React from 'react';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { useAuth } from '../../contexts';
 
 export const RoleSwitcher: React.FC = () => {
-  const { currentUser, switchRole } = useAuth()
+  const { currentUser, switchRole } = useAuth();
 
   return (
     <FormControl size="small" sx={{ minWidth: 150 }}>
@@ -17,5 +17,5 @@ export const RoleSwitcher: React.FC = () => {
         <MenuItem value="SENIOR_OFFICER">Senior Officer</MenuItem>
       </Select>
     </FormControl>
-  )
-}
+  );
+};
