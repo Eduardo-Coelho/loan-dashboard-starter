@@ -1,6 +1,6 @@
 # Loan Application Dashboard
 
-A React + TypeScript dashboard for managing and reviewing loan applications, built as a technical assessment for Praetura.
+A React + TypeScript dashboard for managing and reviewing loan applications
 
 ## Tech Stack
 
@@ -16,10 +16,10 @@ A React + TypeScript dashboard for managing and reviewing loan applications, bui
 
 Two user roles are supported, switchable via the Role Switcher in the top-right corner:
 
-| Role | Access |
-|---|---|
-| `LOAN_OFFICER` | View applications; sensitive fields (NI number, DOB, bank details) are masked |
-| `SENIOR_OFFICER` | Full access to all data including unmasked sensitive fields |
+| Role             | Access                                                                        |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `LOAN_OFFICER`   | View applications; sensitive fields (NI number, DOB, bank details) are masked |
+| `SENIOR_OFFICER` | Full access to all data including unmasked sensitive fields                   |
 
 ### Application Table
 
