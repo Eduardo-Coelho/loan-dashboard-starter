@@ -2,6 +2,8 @@
 
 A React + TypeScript dashboard for managing and reviewing loan applications
 
+![Dashboard Preview](IMGs/DEMO.png)
+
 ## Tech Stack
 
 - **React 18** with TypeScript
