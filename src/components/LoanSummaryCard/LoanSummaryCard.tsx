@@ -28,12 +28,12 @@ export const LoanSummaryCard: React.FC<LoanSummaryCardProps> = ({
         <Typography color="text.secondary" gutterBottom variant="overline">
           {title}
         </Typography>
-        
+
         <Box display="flex" alignItems="center" gap={1}>
           <Typography variant="h4" component="div" color={`${color}.main`}>
             {value}
           </Typography>
-          
+
           {trend && (
             <>
               {trend === 'up' && <TrendingUpIcon color="success" />}
@@ -41,7 +41,7 @@ export const LoanSummaryCard: React.FC<LoanSummaryCardProps> = ({
             </>
           )}
         </Box>
-        
+
         {subtitle && (
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
             {subtitle}

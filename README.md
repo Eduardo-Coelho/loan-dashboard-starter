@@ -1,107 +1,105 @@
-# Loan Dashboard Assessment - Starter Kit
+# Loan Application Dashboard
 
-## Quick Start
+A React + TypeScript dashboard for managing and reviewing loan applications
 
-1. Extract this ZIP file
-2. Open a terminal in the extracted directory
-3. Install dependencies: `npm install`
-4. Start the development server: `npm run dev`
-5. Open http://localhost:5173 in your browser
+## Tech Stack
 
-## Assessment Overview
+- **React 18** with TypeScript
+- **Material UI v5** (MUI) for components and styling
+- **Apollo Client** with mocked GraphQL responses
+- **Vite** for bundling and dev server
+- **react-window** for virtualised list rendering
 
-**Duration:** 4-5 hours (3 hours core + 1-2 hours optional module)
+## Features
 
-**Objective:** Build a loan application dashboard with role-based permissions and sensitive data handling.
+### Role-Based Access Control
 
-## Documentation
+Two user roles are supported, switchable via the Role Switcher in the top-right corner:
 
-- **TASK_REQUIREMENTS.md** - Complete assessment requirements and evaluation criteria
-- **STARTER_KIT_CONTENTS.md** - Documentation of all provided code and utilities
+| Role             | Access                                                                        |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `LOAN_OFFICER`   | View applications; sensitive fields (NI number, DOB, bank details) are masked |
+| `SENIOR_OFFICER` | Full access to all data including unmasked sensitive fields                   |
 
-## What's Provided
+### Application Table
 
-### Working Features
-- Role switching between LOAN_OFFICER and SENIOR_OFFICER
-- 20 mock loan applications with realistic data
-- Example component (LoanSummaryCard) showing expected patterns
-- Risk calculation utilities
-- Currency and date formatting functions
-- TypeScript types for all data structures
-- Custom hook example for data fetching
+- Sortable columns: applicant name, loan amount, risk score, submission date
+- Toolbar with live search (debounced) and status filter
+- Status filter: `PENDING`, `APPROVED`, `REJECTED`, `UNDER_REVIEW`
+- Filter and sort preferences persisted to `localStorage`
 
-### Technology Stack
-- React 18 with TypeScript
-- Material-UI (MUI) for components
-- Apollo Client for GraphQL (mocked)
-- Vite for build tooling
+### Optimistic Status Updates
+
+Updating an application's status applies immediately in the UI, then confirms or rolls back based on the simulated server response (~10% failure rate to demonstrate rollback behaviour).
+
+### Application Detail Modal
+
+Opens on row click with two tabs:
+
+- **Basic Info** — applicant name, email, purpose, term, employment status, submission date
+- **Financial Info** — loan amount, credit score, annual income, debt-to-income ratio, risk score, and role-gated sensitive fields (NI, DOB, bank details)
+
+### Summary Cards
+
+Four KPI cards at the top of the dashboard show totals for the current filtered view: total applications, pending count, approved count, and combined loan value.
 
 ## Project Structure
 
 ```
 src/
-├── components/       # UI components (RoleSwitcher, LoanSummaryCard)
-├── contexts/        # Auth context for role management
-├── hooks/           # Custom React hooks
-├── mocks/           # Mock data and Apollo mocks
-├── types/           # TypeScript type definitions
-├── utils/           # Utility functions (risk, formatting)
-└── App.tsx          # Main application component
+├── components/
+│   ├── ApplicationDetailModal/   # Detail modal with tabbed layout and sensitive field handling
+│   ├── ApplicationTable/         # Sortable table, toolbar, and process dialog
+│   ├── LoanSummaryCard/          # KPI summary card
+│   ├── RiskScoreBadge/           # Colour-coded risk badge (LOW / MEDIUM / HIGH)
+│   ├── RoleSwitcher/             # Role toggle component
+│   └── StatusChip/               # Colour-coded status chip
+├── contexts/
+│   └── AuthContext/              # Auth context — current user and role switching
+├── graphql/
+│   ├── queries.ts                # GraphQL query definitions
+│   ├── schema.graphql            # Schema
+│   └── types.ts                  # Generated GraphQL types
+├── hooks/
+│   ├── useLoanApplications.ts    # Core data hook — filtering, sorting, optimistic updates
+│   └── useDebounce.ts            # Debounce hook used by the search input
+├── mocks/
+│   ├── apolloMocks.tsx           # Apollo mock provider setup
+│   └── mockData.ts               # Seed data for loan applications
+├── types/
+│   └── index.ts                  # Shared TypeScript types
+└── utils/
+    ├── formatting.ts             # Currency and date formatters
+    └── risk.ts                   # Risk score calculation helpers
 ```
-
-## Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run type-check` - Check TypeScript types
 
 ## Getting Started
 
-1. Review the requirements in TASK_REQUIREMENTS.md
-2. The application will load with example summary cards
-3. Your implementation should replace the "Application Table" placeholder
-4. Use the provided utilities and components as needed
-5. Test with both LOAN_OFFICER and SENIOR_OFFICER roles
+### Prerequisites
 
-## Key Implementation Areas
+- Node.js 18+
+- npm
 
-### Core Requirements (Required)
-1. Application list table with sorting and filtering
-2. Application detail modal
-3. Risk score display with color coding
-4. Permission-based UI (sensitive data handling)
-5. State management documentation
+### Install and run
 
-### Optional Modules (Choose One)
-- Advanced Permission System & Audit Trail
-- Complex Data Visualisation & Analytics
-- Real-Time Collaboration Features
-- Advanced Testing & Developer Experience
+```bash
+npm install
+npm run dev
+```
 
-## Important Notes
+The app will be available at `http://localhost:5173`.
 
-- Mock data is static and resets on page refresh
-- Role switching immediately affects data visibility
-- Sensitive fields return `null` for LOAN_OFFICER role
-- All TypeScript types are in `src/types/index.ts`
-- Use the provided utilities rather than creating your own
+### Other commands
 
-## Troubleshooting
+```bash
+npm run build        # Production build (tsc + vite)
+npm run preview      # Preview the production build locally
+npm run type-check   # TypeScript type-check without emitting files
+```
 
-**Build errors:** Ensure you're using Node.js 16+ and npm 7+
+## Key Design Decisions
 
-**Mock data not loading:** Check the browser console and ensure the `useLoanApplications` hook is imported correctly
-
-**TypeScript errors:** Use the provided types from `src/types/index.ts`
-
-## Submission
-
-1. Complete the core requirements and one optional module
-2. Document your approach in the required markdown files
-3. ZIP your entire project directory
-4. Name it: `loan-dashboard-[yourname].zip`
-5. Submit by the specified deadline
-
----
-
-For detailed requirements and evaluation criteria, see TASK_REQUIREMENTS.md
+- **Optimistic UI with rollback** — status changes appear instantly; a simulated 10% server failure rate triggers an automatic rollback with an error banner so the pattern is easy to observe.
+- **localStorage persistence** — filters and sort order survive page refreshes without a backend.
+- **Role masking at the data layer** — `useLoanApplications` strips sensitive field values for `LOAN_OFFICER` before the data reaches any component, so no component needs to make role checks for display logic.
+- **Debounced search** — the search input is debounced via `useDebounce` to avoid unnecessary re-renders on every keystroke.
