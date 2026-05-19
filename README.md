@@ -50,8 +50,18 @@ Four KPI cards at the top of the dashboard show totals for the current filtered 
 ```
 src/
 ├── components/
-│   ├── ApplicationDetailModal/   # Detail modal with tabbed layout and sensitive field handling
-│   ├── ApplicationTable/         # Sortable table, toolbar, and process dialog
+│   ├── ApplicationDetailModal/
+│   │   ├── SensitiveDataField/   # Field component that masks values for LOAN_OFFICER role
+│   │   ├── Tabs/
+│   │   │   ├── BasicInfoTab.tsx      # Applicant name, email, purpose, term, employment
+│   │   │   └── FinancialInfoTab.tsx  # Amounts, scores, and role-gated sensitive fields
+│   │   ├── ApplicationDetailModal.tsx
+│   │   └── config.ts
+│   ├── ApplicationTable/
+│   │   ├── ApplicationTableToolbar/  # Search input and status filter
+│   │   ├── ProcessDialog/            # Confirm dialog for status updates
+│   │   ├── ApplicationTable.tsx
+│   │   └── config.ts                 # Column definitions and constants
 │   ├── LoanSummaryCard/          # KPI summary card
 │   ├── RiskScoreBadge/           # Colour-coded risk badge (LOW / MEDIUM / HIGH)
 │   ├── RoleSwitcher/             # Role toggle component
@@ -65,7 +75,7 @@ src/
 ├── hooks/
 │   ├── useLoanApplications.ts    # Core data hook — filtering, sorting, optimistic updates
 │   └── useDebounce.ts            # Debounce hook used by the search input
-├── mocks/
+├── __fixtures__/
 │   ├── apolloMocks.tsx           # Apollo mock provider setup
 │   └── mockData.ts               # Seed data for loan applications
 ├── types/
