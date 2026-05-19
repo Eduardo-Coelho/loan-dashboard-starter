@@ -24,10 +24,10 @@ import { formatCurrency, formatRelativeTime } from '../../utils/formatting';
 import { calculateRiskScore } from '../../utils/risk';
 import { StatusChip } from '../StatusChip';
 import { RiskScoreBadge } from '../RiskScoreBadge';
-import { ApplicationTableToolbar } from './ApplicationTableToolbar';
-import { ProcessDialog } from './ProcessDialog';
 import { COLUMNS, SKELETON_ROW_COUNT, PROCESSABLE_STATUSES } from './config';
 import { ApplicationFilters } from '../../types';
+import { ApplicationTableToolbar } from './ApplicationTableToolbar';
+import { ProcessDialog } from './ProcessDialog';
 
 type ApplicationTableProps = {
   applications: LoanApplication[];
@@ -71,7 +71,7 @@ const EmptyState = () => (
   </TableRow>
 );
 
-export const ApplicationTable: React.FC<ApplicationTableProps> = ({
+export const ApplicationTable = ({
   applications,
   loading,
   filters,
@@ -84,7 +84,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
   onUpdateStatus,
   onClearMutationError,
   canProcess,
-}) => {
+}: ApplicationTableProps) => {
   const [processTarget, setProcessTarget] = useState<LoanApplication | null>(
     null,
   );

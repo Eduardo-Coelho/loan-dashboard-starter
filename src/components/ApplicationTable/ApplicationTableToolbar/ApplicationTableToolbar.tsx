@@ -12,18 +12,19 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import { ApplicationFilters, ApplicationStatus } from '../../types';
-import { STATUS_FILTER_OPTIONS } from './config';
-import { useDebounce } from '../../hooks/useDebounce';
+import { useDebounce } from '../../../hooks/useDebounce';
+import { ApplicationFilters, ApplicationStatus } from '../../../types';
+import { STATUS_FILTER_OPTIONS } from '../config';
 
-interface ApplicationTableToolbarProps {
+type ApplicationTableToolbarProps = {
   filters: ApplicationFilters;
   onFiltersChange: (filters: ApplicationFilters) => void;
-}
+};
 
-export const ApplicationTableToolbar: React.FC<
-  ApplicationTableToolbarProps
-> = ({ filters, onFiltersChange }) => {
+export const ApplicationTableToolbar = ({
+  filters,
+  onFiltersChange,
+}: ApplicationTableToolbarProps) => {
   const [searchInput, setSearchInput] = useState(filters.searchTerm ?? '');
   const debouncedSearch = useDebounce(searchInput, 300);
 

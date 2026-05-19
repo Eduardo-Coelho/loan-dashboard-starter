@@ -12,23 +12,23 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material';
-import { LoanApplication, ApplicationStatus } from '../../types';
-import { STATUS_TRANSITIONS } from './config';
-import { StatusChip } from '../StatusChip';
+import { ApplicationStatus, LoanApplication } from '../../../types';
+import { StatusChip } from '../../StatusChip';
+import { STATUS_TRANSITIONS } from '../config';
 
-interface ProcessDialogProps {
+type ProcessDialogProps = {
   application: LoanApplication | null;
   open: boolean;
   onClose: () => void;
   onConfirm: (id: string, status: ApplicationStatus) => Promise<void>;
-}
+};
 
-export const ProcessDialog: React.FC<ProcessDialogProps> = ({
+export const ProcessDialog = ({
   application,
   open,
   onClose,
   onConfirm,
-}) => {
+}: ProcessDialogProps) => {
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus | ''>(
     '',
   );
