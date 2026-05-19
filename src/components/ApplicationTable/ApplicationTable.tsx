@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Table,
   TableHead,
@@ -29,7 +29,7 @@ import { ProcessDialog } from './ProcessDialog';
 import { COLUMNS, SKELETON_ROW_COUNT, PROCESSABLE_STATUSES } from './config';
 import { ApplicationFilters } from '../../types';
 
-interface ApplicationTableProps {
+type ApplicationTableProps = {
   applications: LoanApplication[];
   loading: boolean;
   filters: ApplicationFilters;
@@ -45,9 +45,9 @@ interface ApplicationTableProps {
   onUpdateStatus: (id: string, status: ApplicationStatus) => Promise<void>;
   onClearMutationError: () => void;
   canProcess: boolean;
-}
+};
 
-const SkeletonRows: React.FC = memo(() => (
+const SkeletonRows = () => (
   <>
     {Array.from({ length: SKELETON_ROW_COUNT }).map((_, i) => (
       <TableRow key={i}>
@@ -59,10 +59,9 @@ const SkeletonRows: React.FC = memo(() => (
       </TableRow>
     ))}
   </>
-));
-SkeletonRows.displayName = 'SkeletonRows';
+);
 
-const EmptyState: React.FC = () => (
+const EmptyState = () => (
   <TableRow>
     <TableCell colSpan={COLUMNS.length} align="center" sx={{ py: 6 }}>
       <Typography color="text.secondary">
