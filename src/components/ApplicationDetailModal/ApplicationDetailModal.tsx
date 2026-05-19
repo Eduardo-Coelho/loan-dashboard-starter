@@ -15,21 +15,20 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { LoanApplication } from '../../types';
 import { StatusChip } from '../StatusChip';
-import { BasicInfoTab } from './BasicInfoTab';
-import { FinancialInfoTab } from './FinancialInfoTab';
 import { DETAIL_TABS } from './config';
+import { BasicInfoTab, FinancialInfoTab } from './Tabs';
 
-interface ApplicationDetailModalProps {
+type ApplicationDetailModalProps = {
   application: LoanApplication | null;
   open: boolean;
   onClose: () => void;
-}
+};
 
-export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
+export const ApplicationDetailModal = ({
   application,
   open,
   onClose,
-}) => {
+}: ApplicationDetailModalProps) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
