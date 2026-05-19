@@ -2,7 +2,7 @@ import React from 'react';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { useAuth } from '../../contexts';
 
-export const RoleSwitcher: React.FC = () => {
+export const RoleSwitcher = () => {
   const { currentUser, switchRole } = useAuth();
 
   return (

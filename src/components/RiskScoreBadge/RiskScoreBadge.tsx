@@ -3,17 +3,17 @@ import { Chip, Tooltip } from '@mui/material';
 import { RiskCategory } from '../../types';
 import { getRiskCategoryColor } from '../../utils/risk';
 
-interface RiskScoreBadgeProps {
+type RiskScoreBadgeProps = {
   score: number;
   category: RiskCategory;
   showLabel?: boolean;
-}
+};
 
-export const RiskScoreBadge: React.FC<RiskScoreBadgeProps> = ({
+export const RiskScoreBadge = ({
   score,
   category,
   showLabel = true,
-}) => {
+}: RiskScoreBadgeProps) => {
   const color = getRiskCategoryColor(category);
   const label = showLabel ? `${score} ${category}` : String(score);
 

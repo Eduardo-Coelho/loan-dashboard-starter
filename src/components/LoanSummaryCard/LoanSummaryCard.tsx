@@ -3,25 +3,21 @@ import { Card, CardContent, Typography, Box } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 
-interface LoanSummaryCardProps {
+type LoanSummaryCardProps = {
   title: string;
   value: string | number;
   subtitle?: string;
   trend?: 'up' | 'down' | 'neutral';
   color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
-}
+};
 
-/**
- * Example component showing the expected component pattern
- * Candidates should create similar components for their implementation
- */
-export const LoanSummaryCard: React.FC<LoanSummaryCardProps> = ({
+export const LoanSummaryCard = ({
   title,
   value,
   subtitle,
   trend,
   color = 'primary',
-}) => {
+}: LoanSummaryCardProps) => {
   return (
     <Card sx={{ height: '100%' }}>
       <CardContent>
