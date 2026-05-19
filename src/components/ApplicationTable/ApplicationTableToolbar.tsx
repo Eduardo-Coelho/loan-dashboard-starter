@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   TextField,
@@ -9,42 +9,41 @@ import {
   InputAdornment,
   IconButton,
   Tooltip,
-} from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
-import ClearIcon from '@mui/icons-material/Clear'
-import { ApplicationFilters, ApplicationStatus } from '../../types'
-import { STATUS_FILTER_OPTIONS } from './config'
-import { useDebounce } from '../../hooks/useDebounce'
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import { ApplicationFilters, ApplicationStatus } from '../../types';
+import { STATUS_FILTER_OPTIONS } from './config';
+import { useDebounce } from '../../hooks/useDebounce';
 
 interface ApplicationTableToolbarProps {
-  filters: ApplicationFilters
-  onFiltersChange: (filters: ApplicationFilters) => void
+  filters: ApplicationFilters;
+  onFiltersChange: (filters: ApplicationFilters) => void;
 }
 
-export const ApplicationTableToolbar: React.FC<ApplicationTableToolbarProps> = ({
-  filters,
-  onFiltersChange,
-}) => {
-  const [searchInput, setSearchInput] = useState(filters.searchTerm ?? '')
-  const debouncedSearch = useDebounce(searchInput, 300)
+export const ApplicationTableToolbar: React.FC<
+  ApplicationTableToolbarProps
+> = ({ filters, onFiltersChange }) => {
+  const [searchInput, setSearchInput] = useState(filters.searchTerm ?? '');
+  const debouncedSearch = useDebounce(searchInput, 300);
 
   // Propagate debounced search to parent
   useEffect(() => {
-    onFiltersChange({ ...filters, searchTerm: debouncedSearch || undefined })
+    onFiltersChange({ ...filters, searchTerm: debouncedSearch || undefined });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearch])
+  }, [debouncedSearch]);
 
   const handleStatusChange = (value: string) => {
     onFiltersChange({
       ...filters,
       status: value ? (value as ApplicationStatus) : undefined,
-    })
-  }
+    });
+  };
 
   const handleClearSearch = () => {
-    setSearchInput('')
-    onFiltersChange({ ...filters, searchTerm: undefined })
-  }
+    setSearchInput('');
+    onFiltersChange({ ...filters, searchTerm: undefined });
+  };
 
   return (
     <Box
@@ -93,5 +92,5 @@ export const ApplicationTableToolbar: React.FC<ApplicationTableToolbarProps> = (
         </Select>
       </FormControl>
     </Box>
-  )
-}
+  );
+};

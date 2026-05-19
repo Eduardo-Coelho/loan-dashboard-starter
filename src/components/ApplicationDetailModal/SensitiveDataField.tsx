@@ -1,16 +1,19 @@
-import React from 'react'
-import { Box, Typography, Tooltip } from '@mui/material'
-import LockIcon from '@mui/icons-material/Lock'
-import { SensitiveField } from '../../types'
+import React from 'react';
+import { Box, Typography, Tooltip } from '@mui/material';
+import LockIcon from '@mui/icons-material/Lock';
+import { SensitiveField } from '../../types';
 
 interface SensitiveDataFieldProps {
-  label: string
-  field: SensitiveField
+  label: string;
+  field: SensitiveField;
 }
 
-export const SensitiveDataField: React.FC<SensitiveDataFieldProps> = ({ label, field }) => {
-  const isVisible = field.value !== null
-  const displayValue = isVisible ? field.value! : field.masked
+export const SensitiveDataField: React.FC<SensitiveDataFieldProps> = ({
+  label,
+  field,
+}) => {
+  const isVisible = field.value !== null;
+  const displayValue = isVisible ? field.value! : field.masked;
 
   return (
     <Box>
@@ -27,10 +30,14 @@ export const SensitiveDataField: React.FC<SensitiveDataFieldProps> = ({ label, f
         </Typography>
         {!isVisible && (
           <Tooltip title="Restricted — Senior Officer access required">
-            <LockIcon fontSize="inherit" color="disabled" sx={{ fontSize: 14 }} />
+            <LockIcon
+              fontSize="inherit"
+              color="disabled"
+              sx={{ fontSize: 14 }}
+            />
           </Tooltip>
         )}
       </Box>
     </Box>
-  )
-}
+  );
+};

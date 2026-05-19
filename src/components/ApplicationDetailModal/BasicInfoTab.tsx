@@ -1,13 +1,13 @@
-import React from 'react'
-import { Box, Grid, Typography, Divider } from '@mui/material'
-import { LoanApplication } from '../../types'
-import { formatCurrency } from '../../utils/formatting'
-import { SensitiveDataField } from './SensitiveDataField'
-import { calculateMonthlyPayment } from './config'
+import React from 'react';
+import { Box, Grid, Typography, Divider } from '@mui/material';
+import { LoanApplication } from '../../types';
+import { formatCurrency } from '../../utils/formatting';
+import { SensitiveDataField } from './SensitiveDataField';
+import { calculateMonthlyPayment } from './config';
 
 interface FieldRowProps {
-  label: string
-  value: React.ReactNode
+  label: string;
+  value: React.ReactNode;
 }
 
 const FieldRow: React.FC<FieldRowProps> = ({ label, value }) => (
@@ -19,14 +19,17 @@ const FieldRow: React.FC<FieldRowProps> = ({ label, value }) => (
       {value}
     </Typography>
   </Box>
-)
+);
 
 interface BasicInfoTabProps {
-  application: LoanApplication
+  application: LoanApplication;
 }
 
 export const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ application }) => {
-  const monthlyPayment = calculateMonthlyPayment(application.amount, application.termMonths)
+  const monthlyPayment = calculateMonthlyPayment(
+    application.amount,
+    application.termMonths,
+  );
 
   return (
     <Box>
@@ -41,10 +44,16 @@ export const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ application }) => {
           <FieldRow label="Email Address" value={application.email} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <SensitiveDataField label="Date of Birth" field={application.dateOfBirth} />
+          <SensitiveDataField
+            label="Date of Birth"
+            field={application.dateOfBirth}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <SensitiveDataField label="National Insurance Number" field={application.nationalInsurance} />
+          <SensitiveDataField
+            label="National Insurance Number"
+            field={application.nationalInsurance}
+          />
         </Grid>
       </Grid>
 
@@ -55,28 +64,42 @@ export const BasicInfoTab: React.FC<BasicInfoTabProps> = ({ application }) => {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <FieldRow label="Loan Amount" value={formatCurrency(application.amount)} />
+          <FieldRow
+            label="Loan Amount"
+            value={formatCurrency(application.amount)}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <FieldRow label="Purpose" value={application.purpose} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FieldRow label="Term Length" value={`${application.termMonths} months`} />
+          <FieldRow
+            label="Term Length"
+            value={`${application.termMonths} months`}
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <FieldRow
             label="Estimated Monthly Payment"
             value={
-              <Typography component="span" variant="body2" fontWeight={700} color="primary">
+              <Typography
+                component="span"
+                variant="body2"
+                fontWeight={700}
+                color="primary"
+              >
                 {formatCurrency(monthlyPayment)}
               </Typography>
             }
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <SensitiveDataField label="Bank Account Details" field={application.bankDetails} />
+          <SensitiveDataField
+            label="Bank Account Details"
+            field={application.bankDetails}
+          />
         </Grid>
       </Grid>
     </Box>
-  )
-}
+  );
+};

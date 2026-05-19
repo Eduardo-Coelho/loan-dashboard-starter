@@ -3,9 +3,9 @@ type Query {
     status: StatusFilter
     searchTerm: String
   ): [LoanApplication!]!
-  
+
   loanApplication(id: ID!): LoanApplication
-  
+
   currentUser: User!
 }
 
@@ -15,16 +15,10 @@ type Mutation {
     status: ApplicationStatus!
     comment: String!
   ): LoanApplication!
-  
-  reassignApplication(
-    id: ID!
-    officerId: ID!
-  ): LoanApplication!
-  
-  unmaskField(
-    applicationId: ID!
-    fieldName: String!
-  ): UnmaskResult!
+
+  reassignApplication(id: ID!, officerId: ID!): LoanApplication!
+
+  unmaskField(applicationId: ID!, fieldName: String!): UnmaskResult!
 }
 
 type LoanApplication {
@@ -41,12 +35,12 @@ type LoanApplication {
   purpose: String!
   termMonths: Int!
   employmentStatus: EmploymentStatus!
-  
+
   # Sensitive fields - access controlled by role
   nationalInsurance: SensitiveField!
   dateOfBirth: SensitiveField!
   bankDetails: SensitiveField!
-  
+
   # Relationships
   assignedOfficer: User
   lastModifiedBy: User

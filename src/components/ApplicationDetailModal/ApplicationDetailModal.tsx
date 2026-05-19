@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,18 +11,18 @@ import {
   Typography,
   IconButton,
   Chip,
-} from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import { LoanApplication } from '../../types'
-import { StatusChip } from '../StatusChip'
-import { BasicInfoTab } from './BasicInfoTab'
-import { FinancialInfoTab } from './FinancialInfoTab'
-import { DETAIL_TABS } from './config'
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { LoanApplication } from '../../types';
+import { StatusChip } from '../StatusChip';
+import { BasicInfoTab } from './BasicInfoTab';
+import { FinancialInfoTab } from './FinancialInfoTab';
+import { DETAIL_TABS } from './config';
 
 interface ApplicationDetailModalProps {
-  application: LoanApplication | null
-  open: boolean
-  onClose: () => void
+  application: LoanApplication | null;
+  open: boolean;
+  onClose: () => void;
 }
 
 export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
@@ -30,14 +30,14 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
   open,
   onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue)
-  }
+    setActiveTab(newValue);
+  };
 
   // Reset tab when a new application is opened
-  const handleEnter = () => setActiveTab(0)
+  const handleEnter = () => setActiveTab(0);
 
   return (
     <Dialog
@@ -50,7 +50,12 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
       {application && (
         <>
           <DialogTitle
-            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pb: 1 }}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              pb: 1,
+            }}
           >
             <Box>
               <Typography variant="h6" component="span">
@@ -90,5 +95,5 @@ export const ApplicationDetailModal: React.FC<ApplicationDetailModalProps> = ({
         </>
       )}
     </Dialog>
-  )
-}
+  );
+};

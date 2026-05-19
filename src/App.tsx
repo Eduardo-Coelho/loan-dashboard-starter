@@ -1,18 +1,18 @@
-import { useState, useCallback } from 'react'
-import { Container, Typography, Box, Alert, Grid } from '@mui/material'
-import { useLoanApplications } from './hooks/useLoanApplications'
-import { formatCurrency } from './utils/formatting'
-import { useAuth } from './contexts'
+import { useState, useCallback } from 'react';
+import { Container, Typography, Box, Alert, Grid } from '@mui/material';
+import { useLoanApplications } from './hooks/useLoanApplications';
+import { formatCurrency } from './utils/formatting';
+import { useAuth } from './contexts';
 import {
   RoleSwitcher,
   LoanSummaryCard,
   ApplicationTable,
   ApplicationDetailModal,
-} from './components'
-import { LoanApplication } from './types'
+} from './components';
+import { LoanApplication } from './types';
 
 function App() {
-  const { currentUser } = useAuth()
+  const { currentUser } = useAuth();
   const {
     applications,
     loading,
@@ -24,30 +24,40 @@ function App() {
     mutationError,
     clearMutationError,
     statusOverrides,
-  } = useLoanApplications()
+  } = useLoanApplications();
 
-  const [selectedApplication, setSelectedApplication] = useState<LoanApplication | null>(null)
+  const [selectedApplication, setSelectedApplication] =
+    useState<LoanApplication | null>(null);
 
   // Both roles can view details and process
-  const canProcess = true
+  const canProcess = true;
 
-  const totalApplications = applications.length
-  const pendingCount = applications.filter((app) => app.status === 'PENDING').length
-  const approvedCount = applications.filter((app) => app.status === 'APPROVED').length
-  const totalValue = applications.reduce((sum, app) => sum + app.amount, 0)
+  const totalApplications = applications.length;
+  const pendingCount = applications.filter(
+    (app) => app.status === 'PENDING',
+  ).length;
+  const approvedCount = applications.filter(
+    (app) => app.status === 'APPROVED',
+  ).length;
+  const totalValue = applications.reduce((sum, app) => sum + app.amount, 0);
 
   const handleViewDetails = useCallback((app: LoanApplication) => {
-    setSelectedApplication(app)
-  }, [])
+    setSelectedApplication(app);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
-    setSelectedApplication(null)
-  }, [])
+    setSelectedApplication(null);
+  }, []);
 
   return (
     <Container maxWidth="xl">
       <Box py={3}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={3}
+        >
           <Box>
             <Typography variant="h4" component="h1">
               Loan Application Dashboard
@@ -64,8 +74,10 @@ function App() {
           sx={{ mb: 3 }}
         >
           Logged in as <strong>{currentUser.role.replace('_', ' ')}</strong>
-          {currentUser.role === 'LOAN_OFFICER' && ' — sensitive fields are masked'}
-          {currentUser.role === 'SENIOR_OFFICER' && ' — full access to all data'}
+          {currentUser.role === 'LOAN_OFFICER' &&
+            ' — sensitive fields are masked'}
+          {currentUser.role === 'SENIOR_OFFICER' &&
+            ' — full access to all data'}
         </Alert>
 
         <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -125,7 +137,7 @@ function App() {
         />
       </Box>
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -18,7 +18,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Provider component
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [currentUser, setCurrentUser] = useState<User>({
     id: 'user-1',
     name: 'Test User',
@@ -26,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   const switchRole = (role: UserRole) => {
-    setCurrentUser(prev => ({ ...prev, role }));
+    setCurrentUser((prev) => ({ ...prev, role }));
   };
 
   return (

@@ -1,12 +1,12 @@
-import React from 'react'
-import { Chip, Tooltip } from '@mui/material'
-import { RiskCategory } from '../../types'
-import { getRiskCategoryColor } from '../../utils/risk'
+import React from 'react';
+import { Chip, Tooltip } from '@mui/material';
+import { RiskCategory } from '../../types';
+import { getRiskCategoryColor } from '../../utils/risk';
 
 interface RiskScoreBadgeProps {
-  score: number
-  category: RiskCategory
-  showLabel?: boolean
+  score: number;
+  category: RiskCategory;
+  showLabel?: boolean;
 }
 
 export const RiskScoreBadge: React.FC<RiskScoreBadgeProps> = ({
@@ -14,8 +14,8 @@ export const RiskScoreBadge: React.FC<RiskScoreBadgeProps> = ({
   category,
   showLabel = true,
 }) => {
-  const color = getRiskCategoryColor(category)
-  const label = showLabel ? `${score} ${category}` : String(score)
+  const color = getRiskCategoryColor(category);
+  const label = showLabel ? `${score} ${category}` : String(score);
 
   return (
     <Tooltip title={`Risk: ${category} (${score}/10)`}>
@@ -31,5 +31,5 @@ export const RiskScoreBadge: React.FC<RiskScoreBadgeProps> = ({
         }}
       />
     </Tooltip>
-  )
-}
+  );
+};

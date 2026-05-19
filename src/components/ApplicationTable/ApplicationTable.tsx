@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react'
+import React, { useState, useCallback, memo } from 'react';
 import {
   Table,
   TableHead,
@@ -15,33 +15,36 @@ import {
   Typography,
   Alert,
   Snackbar,
-} from '@mui/material'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import EditIcon from '@mui/icons-material/Edit'
-import { LoanApplication, ApplicationStatus } from '../../types'
-import { SortConfig, SortField } from '../../hooks/useLoanApplications'
-import { formatCurrency, formatRelativeTime } from '../../utils/formatting'
-import { calculateRiskScore } from '../../utils/risk'
-import { StatusChip } from '../StatusChip'
-import { RiskScoreBadge } from '../RiskScoreBadge'
-import { ApplicationTableToolbar } from './ApplicationTableToolbar'
-import { ProcessDialog } from './ProcessDialog'
-import { COLUMNS, SKELETON_ROW_COUNT, PROCESSABLE_STATUSES } from './config'
-import { ApplicationFilters } from '../../types'
+} from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import { LoanApplication, ApplicationStatus } from '../../types';
+import { SortConfig, SortField } from '../../hooks/useLoanApplications';
+import { formatCurrency, formatRelativeTime } from '../../utils/formatting';
+import { calculateRiskScore } from '../../utils/risk';
+import { StatusChip } from '../StatusChip';
+import { RiskScoreBadge } from '../RiskScoreBadge';
+import { ApplicationTableToolbar } from './ApplicationTableToolbar';
+import { ProcessDialog } from './ProcessDialog';
+import { COLUMNS, SKELETON_ROW_COUNT, PROCESSABLE_STATUSES } from './config';
+import { ApplicationFilters } from '../../types';
 
 interface ApplicationTableProps {
-  applications: LoanApplication[]
-  loading: boolean
-  filters: ApplicationFilters
-  sortConfig: SortConfig
-  mutationError: string | null
-  statusOverrides: Record<string, { status: ApplicationStatus; isPending: boolean }>
-  onFiltersChange: (filters: ApplicationFilters) => void
-  onSortChange: (sort: SortConfig) => void
-  onViewDetails: (application: LoanApplication) => void
-  onUpdateStatus: (id: string, status: ApplicationStatus) => Promise<void>
-  onClearMutationError: () => void
-  canProcess: boolean
+  applications: LoanApplication[];
+  loading: boolean;
+  filters: ApplicationFilters;
+  sortConfig: SortConfig;
+  mutationError: string | null;
+  statusOverrides: Record<
+    string,
+    { status: ApplicationStatus; isPending: boolean }
+  >;
+  onFiltersChange: (filters: ApplicationFilters) => void;
+  onSortChange: (sort: SortConfig) => void;
+  onViewDetails: (application: LoanApplication) => void;
+  onUpdateStatus: (id: string, status: ApplicationStatus) => Promise<void>;
+  onClearMutationError: () => void;
+  canProcess: boolean;
 }
 
 const SkeletonRows: React.FC = memo(() => (
@@ -56,16 +59,18 @@ const SkeletonRows: React.FC = memo(() => (
       </TableRow>
     ))}
   </>
-))
-SkeletonRows.displayName = 'SkeletonRows'
+));
+SkeletonRows.displayName = 'SkeletonRows';
 
 const EmptyState: React.FC = () => (
   <TableRow>
     <TableCell colSpan={COLUMNS.length} align="center" sx={{ py: 6 }}>
-      <Typography color="text.secondary">No applications match your filters.</Typography>
+      <Typography color="text.secondary">
+        No applications match your filters.
+      </Typography>
     </TableCell>
   </TableRow>
-)
+);
 
 export const ApplicationTable: React.FC<ApplicationTableProps> = ({
   applications,
@@ -81,28 +86,36 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
   onClearMutationError,
   canProcess,
 }) => {
-  const [processTarget, setProcessTarget] = useState<LoanApplication | null>(null)
+  const [processTarget, setProcessTarget] = useState<LoanApplication | null>(
+    null,
+  );
 
   const handleSortClick = useCallback(
     (field: SortField) => {
       onSortChange({
         field,
-        direction: sortConfig.field === field && sortConfig.direction === 'asc' ? 'desc' : 'asc',
-      })
+        direction:
+          sortConfig.field === field && sortConfig.direction === 'asc'
+            ? 'desc'
+            : 'asc',
+      });
     },
     [sortConfig, onSortChange],
-  )
+  );
 
   const handleProcessConfirm = useCallback(
     async (id: string, status: ApplicationStatus) => {
-      await onUpdateStatus(id, status)
+      await onUpdateStatus(id, status);
     },
     [onUpdateStatus],
-  )
+  );
 
   return (
     <>
-      <ApplicationTableToolbar filters={filters} onFiltersChange={onFiltersChange} />
+      <ApplicationTableToolbar
+        filters={filters}
+        onFiltersChange={onFiltersChange}
+      />
 
       <TableContainer component={Paper} variant="outlined">
         <Table size="small" sx={{ tableLayout: 'fixed' }}>
@@ -123,7 +136,9 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
                     <TableSortLabel
                       active={sortConfig.field === col.sortField}
                       direction={
-                        sortConfig.field === col.sortField ? sortConfig.direction : 'asc'
+                        sortConfig.field === col.sortField
+                          ? sortConfig.direction
+                          : 'asc'
                       }
                       onClick={() => handleSortClick(col.sortField!)}
                     >
@@ -144,16 +159,20 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
               <EmptyState />
             ) : (
               applications.map((app) => {
-                const risk = calculateRiskScore(app)
-                const override = statusOverrides[app.id]
-                const isPending = override?.isPending ?? false
-                const canBeProcessed = canProcess && PROCESSABLE_STATUSES.includes(app.status)
+                const risk = calculateRiskScore(app);
+                const override = statusOverrides[app.id];
+                const isPending = override?.isPending ?? false;
+                const canBeProcessed =
+                  canProcess && PROCESSABLE_STATUSES.includes(app.status);
 
                 return (
                   <TableRow
                     key={app.id}
                     hover
-                    sx={{ opacity: isPending ? 0.65 : 1, transition: 'opacity 0.2s' }}
+                    sx={{
+                      opacity: isPending ? 0.65 : 1,
+                      transition: 'opacity 0.2s',
+                    }}
                   >
                     <TableCell>
                       <Typography variant="body2" fontWeight={500}>
@@ -165,11 +184,16 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
                     </TableCell>
 
                     <TableCell align="right">
-                      <Typography variant="body2">{formatCurrency(app.amount)}</Typography>
+                      <Typography variant="body2">
+                        {formatCurrency(app.amount)}
+                      </Typography>
                     </TableCell>
 
                     <TableCell align="center">
-                      <RiskScoreBadge score={risk.score} category={risk.category} />
+                      <RiskScoreBadge
+                        score={risk.score}
+                        category={risk.category}
+                      />
                     </TableCell>
 
                     <TableCell align="center">
@@ -177,7 +201,9 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
                     </TableCell>
 
                     <TableCell>
-                      <Typography variant="body2">{formatRelativeTime(app.submittedAt)}</Typography>
+                      <Typography variant="body2">
+                        {formatRelativeTime(app.submittedAt)}
+                      </Typography>
                     </TableCell>
 
                     <TableCell align="right">
@@ -224,7 +250,7 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
                       </Box>
                     </TableCell>
                   </TableRow>
-                )
+                );
               })
             )}
           </TableBody>
@@ -249,5 +275,5 @@ export const ApplicationTable: React.FC<ApplicationTableProps> = ({
         </Alert>
       </Snackbar>
     </>
-  )
-}
+  );
+};

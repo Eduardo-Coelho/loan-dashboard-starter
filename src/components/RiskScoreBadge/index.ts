@@ -1,1 +1,1 @@
-export { RiskScoreBadge } from './RiskScoreBadge'
+export { RiskScoreBadge } from './RiskScoreBadge';

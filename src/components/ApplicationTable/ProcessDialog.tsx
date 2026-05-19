@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,16 +11,16 @@ import {
   MenuItem,
   Typography,
   CircularProgress,
-} from '@mui/material'
-import { LoanApplication, ApplicationStatus } from '../../types'
-import { STATUS_TRANSITIONS } from './config'
-import { StatusChip } from '../StatusChip'
+} from '@mui/material';
+import { LoanApplication, ApplicationStatus } from '../../types';
+import { STATUS_TRANSITIONS } from './config';
+import { StatusChip } from '../StatusChip';
 
 interface ProcessDialogProps {
-  application: LoanApplication | null
-  open: boolean
-  onClose: () => void
-  onConfirm: (id: string, status: ApplicationStatus) => Promise<void>
+  application: LoanApplication | null;
+  open: boolean;
+  onClose: () => void;
+  onConfirm: (id: string, status: ApplicationStatus) => Promise<void>;
 }
 
 export const ProcessDialog: React.FC<ProcessDialogProps> = ({
@@ -29,27 +29,29 @@ export const ProcessDialog: React.FC<ProcessDialogProps> = ({
   onClose,
   onConfirm,
 }) => {
-  const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus | ''>('')
-  const [loading, setLoading] = useState(false)
+  const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus | ''>(
+    '',
+  );
+  const [loading, setLoading] = useState(false);
 
   const availableTransitions = application
     ? (STATUS_TRANSITIONS[application.status] ?? [])
-    : []
+    : [];
 
   const handleConfirm = async () => {
-    if (!application || !selectedStatus) return
-    setLoading(true)
-    await onConfirm(application.id, selectedStatus)
-    setLoading(false)
-    setSelectedStatus('')
-    onClose()
-  }
+    if (!application || !selectedStatus) return;
+    setLoading(true);
+    await onConfirm(application.id, selectedStatus);
+    setLoading(false);
+    setSelectedStatus('');
+    onClose();
+  };
 
   const handleClose = () => {
-    if (loading) return
-    setSelectedStatus('')
-    onClose()
-  }
+    if (loading) return;
+    setSelectedStatus('');
+    onClose();
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -68,7 +70,9 @@ export const ProcessDialog: React.FC<ProcessDialogProps> = ({
               <Select
                 label="New Status"
                 value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value as ApplicationStatus)}
+                onChange={(e) =>
+                  setSelectedStatus(e.target.value as ApplicationStatus)
+                }
               >
                 {availableTransitions.map((s) => (
                   <MenuItem key={s} value={s}>
@@ -94,5 +98,5 @@ export const ProcessDialog: React.FC<ProcessDialogProps> = ({
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};

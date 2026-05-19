@@ -1,8 +1,8 @@
-import { MockedProvider } from '@apollo/client/testing'
-import { GET_APPLICATIONS } from '../graphql/queries'
-import { mockApplications } from './mockData'
-import { useAuth } from '../contexts/AuthContext'
-import React from 'react'
+import { MockedProvider } from '@apollo/client/testing';
+import { GET_APPLICATIONS } from '../graphql/queries';
+import { mockApplications } from './mockData';
+import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
 
 export const createMocksForRole = (userRole: string) => [
   {
@@ -12,11 +12,14 @@ export const createMocksForRole = (userRole: string) => [
     },
     result: () => ({
       data: {
-        loanApplications: mockApplications.map(app => ({
+        loanApplications: mockApplications.map((app) => ({
           ...app,
           nationalInsurance: {
             ...app.nationalInsurance,
-            value: userRole === 'SENIOR_OFFICER' ? app.nationalInsurance.value : null,
+            value:
+              userRole === 'SENIOR_OFFICER'
+                ? app.nationalInsurance.value
+                : null,
           },
           dateOfBirth: {
             ...app.dateOfBirth,
@@ -30,15 +33,17 @@ export const createMocksForRole = (userRole: string) => [
       },
     }),
   },
-]
+];
 
-export const MockedApolloProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { currentUser } = useAuth()
-  const mocks = createMocksForRole(currentUser.role)
-  
+export const MockedApolloProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { currentUser } = useAuth();
+  const mocks = createMocksForRole(currentUser.role);
+
   return (
     <MockedProvider mocks={mocks} addTypename={false}>
       {children}
     </MockedProvider>
-  )
-}
+  );
+};
