@@ -8,6 +8,7 @@ import {
   LoanSummaryCard,
   ApplicationTable,
   ApplicationDetailModal,
+  MetricsCharts,
 } from './components';
 import { LoanApplication } from './types';
 
@@ -114,6 +115,8 @@ function App() {
             />
           </Grid>
         </Grid>
+
+        <MetricsCharts applications={applications} />
 
         <ApplicationTable
           applications={applications}
