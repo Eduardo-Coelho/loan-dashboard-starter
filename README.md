@@ -45,6 +45,16 @@ Opens on row click with two tabs:
 
 Four KPI cards at the top of the dashboard show totals for the current filtered view: total applications, pending count, approved count, and combined loan value.
 
+### Metrics Charts
+
+Three animated donut charts visualise the current filtered dataset at a glance:
+
+- **Application Status** — breakdown by PENDING / APPROVED / REJECTED / UNDER_REVIEW
+- **Loan Amount Range** — distribution across four buckets: <£50k, £50k–£150k, £150k–£300k, >£300k
+- **Risk Distribution** — LOW / MEDIUM / HIGH split, colours aligned with the risk badge
+
+Charts are built without any external charting library — pure SVG `stroke-dasharray` / `stroke-dashoffset` technique with a CSS `transition` on mount. The reusable `PieChart` component accepts a generic `segments` array and can be dropped anywhere in the app.
+
 ## Project Structure
 
 ```
@@ -62,6 +72,8 @@ src/
 │   │   ├── ProcessDialog/            # Confirm dialog for status updates
 │   │   ├── ApplicationTable.tsx
 │   │   └── config.ts                 # Column definitions and constants
+│   ├── MetricsCharts/            # Dashboard wrapper rendering the three donut charts
+│   ├── PieChart/                 # Reusable SVG donut chart with CSS transition animation
 │   ├── LoanSummaryCard/          # KPI summary card
 │   ├── RiskScoreBadge/           # Colour-coded risk badge (LOW / MEDIUM / HIGH)
 │   ├── RoleSwitcher/             # Role toggle component
@@ -115,3 +127,4 @@ npm run type-check   # TypeScript type-check without emitting files
 - **localStorage persistence** — filters and sort order survive page refreshes without a backend.
 - **Role masking at the data layer** — `useLoanApplications` strips sensitive field values for `LOAN_OFFICER` before the data reaches any component, so no component needs to make role checks for display logic.
 - **Debounced search** — the search input is debounced via `useDebounce` to avoid unnecessary re-renders on every keystroke.
+- **No-library charts** — donut charts use the SVG `stroke-dasharray` / `stroke-dashoffset` technique with a CSS transition, avoiding third-party charting dependencies. The `PieChart` component is generic and reusable across the app.
